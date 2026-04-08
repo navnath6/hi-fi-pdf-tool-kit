@@ -3,7 +3,7 @@
 const HiFiApp = {
   // --- Theme Management ---
   initTheme() {
-    const saved = localStorage.getItem('hifi-theme') || 'dark';
+    const saved = localStorage.getItem('hifi-theme') || 'light';
     document.documentElement.setAttribute('data-theme', saved);
     this.updateThemeIcon(saved);
   },
