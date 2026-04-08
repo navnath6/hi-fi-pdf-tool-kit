@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>index.html</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>tool.html?id=merge-pdf</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>tool.html?id=split-pdf</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>tool.html?id=compress-pdf</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>tool.html?id=resize-pdf</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>tool.html?id=rotate-pdf</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>tool.html?id=jpg-to-pdf</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>tool.html?id=pdf-to-jpg</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>tool.html?id=add-watermark</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>tool.html?id=add-page-numbers</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>tool.html?id=protect-pdf</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>tool.html?id=unlock-pdf</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>tool.html?id=meesho-label</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>tool.html?id=flipkart-label</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>tool.html?id=whatsapp-compress</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>tool.html?id=govt-photo-resize</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>tool.html?id=word-count</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>compress-pdf-to.html?size=50kb</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>compress-pdf-to.html?size=100kb</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>compress-pdf-to.html?size=200kb</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>compress-pdf-to.html?size=500kb</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>compress-pdf-to.html?size=1mb</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>compress-pdf-to.html?size=2mb</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>about.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>contact.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>privacy.html</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>disclaimer.html</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+</urlset>

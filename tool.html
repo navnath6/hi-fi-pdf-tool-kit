@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>PDF Tool — Hi Fi PDF Tool Kit</title>
+  <meta name="description" content="Free online PDF tool — Hi Fi PDF Tool Kit">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#6C5CE7">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect rx='20' width='100' height='100' fill='%236C5CE7'/><text x='50' y='68' text-anchor='middle' fill='white' font-size='42' font-family='Arial' font-weight='bold'>HF</text></svg>">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+  <div class="ambient-bg"></div>
+
+  <!-- Top Nav -->
+  <header class="top-nav" data-aos="fade-down">
+    <a href="index.html" class="top-nav__brand" style="font-size:1rem">
+      <i class="fas fa-arrow-left" style="font-size:1.1rem;-webkit-text-fill-color:var(--text-primary);margin-right:4px"></i>
+      <span>Hi Fi PDF</span>
+    </a>
+    <div class="top-nav__actions">
+      <button class="top-nav__btn" onclick="HiFiApp.shareTool(currentToolId)" aria-label="Share"><i class="fas fa-share-alt"></i></button>
+      <button class="top-nav__btn" id="themeToggle" onclick="HiFiApp.toggleTheme()" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+    </div>
+  </header>
+
+  <!-- Breadcrumbs -->
+  <div id="breadcrumbs"></div>
+
+  <!-- Tool Header -->
+  <div class="tool-page__header" id="toolHeader" data-aos="zoom-in" data-aos-duration="800">
+    <h1 id="toolTitle">Loading...</h1>
+    <p class="tool-page__intro" id="toolIntro"></p>
+  </div>
+
+  <!-- Tool Interface -->
+  <div class="tool-page">
+    <!-- Upload Zone -->
+    <div id="uploadContainer" class="px-base" data-aos="fade-up" data-aos-delay="200"></div>
+
+    <!-- Tool-specific Controls -->
+    <div id="toolControls" class="px-base mt-md"></div>
+
+    <!-- Process Button -->
+    <div id="processSection" class="px-base mt-md hidden">
+      <button class="btn btn--primary btn--block btn--lg" id="processBtn" onclick="processTool()">
+        <i class="fas fa-magic"></i> <span id="processBtnText">Process</span>
+      </button>
+    </div>
+
+    <!-- Progress -->
+    <div id="progressContainer" class="px-base mt-md hidden"></div>
+
+    <!-- Result -->
+    <div id="resultContainer" class="px-base mt-md hidden"></div>
+
+    <!-- Ad Zone -->
+    <div class="ad-zone mt-lg" id="adInline">Ad Space</div>
+
+    <!-- Steps -->
+    <div id="stepsContainer" class="mt-xl" data-aos="fade-up"></div>
+
+    <!-- Benefits -->
+    <div id="benefitsContainer" class="mt-xl" data-aos="fade-up"></div>
+
+    <!-- FAQ -->
+    <div id="faqContainer" class="mt-xl" data-aos="fade-up"></div>
+
+    <!-- Related Tools -->
+    <div id="relatedContainer" class="mt-xl mb-xl" data-aos="fade-up"></div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+    <a href="index.html" class="bottom-nav__item"><i class="fas fa-home"></i><span>Home</span></a>
+    <a href="tool.html?id=compress-pdf" class="bottom-nav__item"><i class="fas fa-compress-arrows-alt"></i><span>Compress</span></a>
+    <a href="tool.html?id=merge-pdf" class="bottom-nav__item"><i class="fas fa-object-group"></i><span>Merge</span></a>
+    <a href="tool.html?id=jpg-to-pdf" class="bottom-nav__item"><i class="fas fa-image"></i><span>Convert</span></a>
+    <a href="tool.html?id=recent-history" class="bottom-nav__item"><i class="fas fa-history"></i><span>Recent</span></a>
+  </nav>
+
+  <!-- Libraries -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    AOS.init({ duration: 800, once: true });
+    if(window.pdfjsLib)pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  </script>
+
+  <script src="js/tools-config.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/ui-components.js"></script>
+  <script src="js/pdf-engine.js"></script>
+  <script src="js/seo-engine.js"></script>
+
+  <script>
+    let currentToolId = '';
+    let currentTool = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      currentToolId = params.get('id') || 'compress-pdf';
+      currentTool = getToolById(currentToolId);
+
+      if (!currentTool) {
+        document.getElementById('toolTitle').textContent = 'Tool Not Found';
+        document.getElementById('toolIntro').textContent = 'The requested tool could not be found.';
+        return;
+      }
+
+      // Track recent
+      HiFiApp.addRecent(currentToolId);
+
+      // Set page content
+      document.getElementById('toolTitle').textContent = currentTool.name;
+      document.getElementById('toolIntro').textContent = currentTool.intro || currentTool.desc;
+      document.getElementById('processBtnText').textContent = currentTool.name;
+
+      // SEO
+      SEOEngine.setMeta(currentTool);
+      SEOEngine.injectJSONLD(currentTool);
+      SEOEngine.injectBreadcrumbs('breadcrumbs', currentTool);
+
+      // Upload zone
+      const isImageTool = ['jpg-to-pdf', 'scan-to-pdf', 'govt-photo-resize', 'govt-signature-resize'].includes(currentToolId);
+      const acceptTypes = isImageTool ? '.jpg,.jpeg,.png,.webp,.gif' : '.pdf';
+      const needsMultiple = ['merge-pdf', 'jpg-to-pdf', 'scan-to-pdf', 'compare-pdf'].includes(currentToolId);
+
+      HiFiUI.createUploadZone('uploadContainer', {
+        accept: acceptTypes,
+        multiple: needsMultiple,
+        onFiles: (files) => {
+          if (files.length > 0) {
+            document.getElementById('processSection').classList.remove('hidden');
+          } else {
+            document.getElementById('processSection').classList.add('hidden');
+          }
+        }
+      });
+
+      // Tool-specific controls
+      renderToolControls();
+
+      // Content sections
+      HiFiUI.renderSteps('stepsContainer', currentTool.steps);
+      HiFiUI.renderBenefits('benefitsContainer', currentTool.benefits);
+      HiFiUI.renderFAQ('faqContainer', currentTool.faq);
+      HiFiUI.renderRelated('relatedContainer', currentToolId);
+
+      // Bottom nav active state
+      document.querySelectorAll('.bottom-nav__item').forEach(item => {
+        if (item.href && item.href.includes(currentToolId)) item.classList.add('active');
+      });
+    });
+
+    function renderToolControls() {
+      const controls = document.getElementById('toolControls');
+      switch (currentToolId) {
+        case 'compress-pdf':
+          HiFiUI.renderCompressionControls('toolControls', null);
+          break;
+        case 'compress-50kb': case 'compress-100kb': case 'compress-200kb':
+        case 'compress-500kb': case 'compress-1mb': case 'compress-2mb':
+        case 'whatsapp-compress':
+          HiFiUI.renderCompressionControls('toolControls', currentTool.targetSize);
+          break;
+        case 'rotate-pdf':
+          HiFiUI.renderRotateControls('toolControls');
+          break;
+        case 'add-watermark':
+          HiFiUI.renderWatermarkControls('toolControls');
+          break;
+        case 'add-page-numbers':
+          HiFiUI.renderPageNumberControls('toolControls');
+          break;
+        case 'protect-pdf':
+          HiFiUI.renderProtectControls('toolControls');
+          break;
+        case 'unlock-pdf':
+          HiFiUI.renderUnlockControls('toolControls');
+          break;
+        case 'jpg-to-pdf': case 'scan-to-pdf':
+          HiFiUI.renderImageConvertControls('toolControls');
+          break;
+        case 'resize-pdf':
+          HiFiUI.renderCompressionControls('toolControls', null);
+          break;
+        default:
+          break;
+      }
+    }
+
+    async function processTool() {
+      const files = HiFiUI.getFiles();
+      if (!files || files.length === 0) { HiFiApp.toast('Please select a file first', 'warning'); return; }
+
+      const processBtn = document.getElementById('processBtn');
+      const progressContainer = document.getElementById('progressContainer');
+      const resultContainer = document.getElementById('resultContainer');
+
+      processBtn.disabled = true;
+      processBtn.innerHTML = '<div class="spinner" style="width:20px;height:20px;border-width:2px"></div> Processing...';
+      progressContainer.classList.remove('hidden');
+      resultContainer.classList.add('hidden');
+      HiFiUI.createProgress('progressContainer');
+
+      const onProgress = (pct, msg) => HiFiUI.updateProgress(pct, msg);
+
+      try {
+        let resultBlob, resultName;
+        const file = files[0];
+        const baseName = file.name.replace(/\.[^.]+$/, '');
+
+        switch (currentToolId) {
+          case 'merge-pdf':
+            resultBlob = await PDFEngine.mergePDFs(files, onProgress);
+            resultName = 'merged.pdf';
+            break;
+
+          case 'split-pdf': {
+            // Split all pages individually
+            const info = await PDFEngine.getPDFInfo(file);
+            const ranges = info.pages.map(p => [p.num]);
+            const blobs = await PDFEngine.splitPDF(file, ranges, onProgress);
+            // Download first, show message for others
+            resultBlob = blobs[0];
+            resultName = `${baseName}_page1.pdf`;
+            if (blobs.length > 1) HiFiApp.toast(`${blobs.length} files created! First downloading now.`, 'info');
+            break;
+          }
+
+          case 'compress-pdf': case 'resize-pdf': {
+            const customSize = document.getElementById('customSize');
+            const customUnit = document.getElementById('customUnit');
+            let targetKB = null;
+            if (customSize && customSize.value) {
+              targetKB = parseInt(customSize.value);
+              if (customUnit && customUnit.value === 'mb') targetKB *= 1024;
+            }
+            resultBlob = await PDFEngine.compressPDF(file, targetKB, null, onProgress);
+            resultName = `${baseName}_compressed.pdf`;
+            break;
+          }
+
+          case 'compress-50kb': case 'compress-100kb': case 'compress-200kb':
+          case 'compress-500kb': case 'compress-1mb': case 'compress-2mb':
+          case 'whatsapp-compress':
+            resultBlob = await PDFEngine.compressPDF(file, currentTool.targetSize, null, onProgress);
+            resultName = `${baseName}_${currentTool.targetSize}kb.pdf`;
+            break;
+
+          case 'rotate-pdf': {
+            const activeBtn = document.querySelector('.rotation-btn.active');
+            const deg = activeBtn ? parseInt(activeBtn.dataset.deg) : 90;
+            resultBlob = await PDFEngine.rotatePDF(file, deg, null, onProgress);
+            resultName = `${baseName}_rotated.pdf`;
+            break;
+          }
+
+          case 'add-watermark': {
+            const text = document.getElementById('watermarkText')?.value || 'WATERMARK';
+            const opacity = parseInt(document.getElementById('watermarkOpacity')?.value || 30);
+            const fontSize = parseInt(document.getElementById('watermarkSize')?.value || 50);
+            const color = document.getElementById('watermarkColor')?.value || '#cccccc';
+            resultBlob = await PDFEngine.addWatermark(file, text, { opacity, fontSize, color }, onProgress);
+            resultName = `${baseName}_watermarked.pdf`;
+            break;
+          }
+
+          case 'add-page-numbers': {
+            const position = document.getElementById('pageNumPosition')?.value || 'bottom-center';
+            const startNum = parseInt(document.getElementById('startNumber')?.value || 1);
+            const format = document.getElementById('pageNumFormat')?.value || 'numeric';
+            resultBlob = await PDFEngine.addPageNumbers(file, position, startNum, format, onProgress);
+            resultName = `${baseName}_numbered.pdf`;
+            break;
+          }
+
+          case 'protect-pdf': {
+            const pw = document.getElementById('pdfPassword')?.value;
+            const pwc = document.getElementById('pdfPasswordConfirm')?.value;
+            if (!pw) { HiFiApp.toast('Please enter a password', 'warning'); throw new Error('No password'); }
+            if (pw !== pwc) { HiFiApp.toast('Passwords do not match', 'error'); throw new Error('Password mismatch'); }
+            resultBlob = await PDFEngine.protectPDF(file, pw, onProgress);
+            resultName = `${baseName}_protected.pdf`;
+            break;
+          }
+
+          case 'jpg-to-pdf': case 'scan-to-pdf': {
+            const pageSize = document.getElementById('pageSize')?.value || 'a4';
+            const orientation = document.getElementById('orientation')?.value || 'portrait';
+            const margin = document.getElementById('imgMargin')?.value || '10';
+            resultBlob = await PDFEngine.imagesToPDF(files, { pageSize, orientation, margin }, onProgress);
+            resultName = 'converted.pdf';
+            break;
+          }
+
+          case 'pdf-to-jpg': {
+            const images = await PDFEngine.pdfToImages(file, 2, onProgress);
+            if (images.length > 0) {
+              // Download first image
+              const link = document.createElement('a');
+              link.href = images[0].dataUrl;
+              link.download = `${baseName}_page1.jpg`;
+              link.click();
+              if (images.length > 1) HiFiApp.toast(`${images.length} images converted!`, 'success');
+            }
+            resultBlob = null;
+            break;
+          }
+
+          case 'remove-pages': case 'extract-pages': case 'rearrange-pages': {
+            // Basic implementation: extract/remove all pages
+            const info = await PDFEngine.getPDFInfo(file);
+            if (currentToolId === 'remove-pages') {
+              resultBlob = await PDFEngine.removePages(file, [info.pageCount], onProgress);
+            } else {
+              resultBlob = await PDFEngine.extractPages(file, [1], onProgress);
+            }
+            resultName = `${baseName}_${currentToolId.replace('-', '_')}.pdf`;
+            break;
+          }
+
+          case 'increase-pdf-size': {
+            const customSize = document.getElementById('customSize');
+            const customUnit = document.getElementById('customUnit');
+            let targetKB = 1024;
+            if (customSize && customSize.value) {
+              targetKB = parseInt(customSize.value);
+              if (customUnit && customUnit.value === 'mb') targetKB *= 1024;
+            }
+            resultBlob = await PDFEngine.increasePDFSize(file, targetKB, onProgress);
+            resultName = `${baseName}_increased.pdf`;
+            break;
+          }
+
+          case 'crop-pdf': case 'crop-single-page':
+          case 'meesho-label': case 'flipkart-label': case 'amazon-label': {
+            const cropBox = { top: 10, bottom: 10, left: 5, right: 5 };
+            if (['meesho-label', 'flipkart-label', 'amazon-label'].includes(currentToolId)) {
+              cropBox.top = 5; cropBox.bottom = 50; cropBox.left = 3; cropBox.right = 3;
+            }
+            resultBlob = await PDFEngine.cropPDF(file, cropBox, null, onProgress);
+            resultName = `${baseName}_cropped.pdf`;
+            break;
+          }
+
+          case 'word-count': {
+            const stats = await PDFEngine.countWords(file, onProgress);
+            resultContainer.classList.remove('hidden');
+            resultContainer.innerHTML = `
+              <div class="result-card animate-bounce-in text-center">
+                <div style="font-size:2rem;margin-bottom:12px">📊</div>
+                <h3 style="margin-bottom:16px">Document Statistics</h3>
+                <div style="display:flex;gap:12px;justify-content:center">
+                  <div class="benefit-card" style="flex:1"><div class="benefit-card__icon">📝</div><div style="font-size:1.5rem;font-weight:800;color:var(--primary)">${stats.words.toLocaleString()}</div><div class="benefit-card__desc">Words</div></div>
+                  <div class="benefit-card" style="flex:1"><div class="benefit-card__icon">🔤</div><div style="font-size:1.5rem;font-weight:800;color:var(--primary)">${stats.characters.toLocaleString()}</div><div class="benefit-card__desc">Characters</div></div>
+                  <div class="benefit-card" style="flex:1"><div class="benefit-card__icon">📄</div><div style="font-size:1.5rem;font-weight:800;color:var(--primary)">${stats.pages}</div><div class="benefit-card__desc">Pages</div></div>
+                </div>
+              </div>
+            `;
+            processBtn.disabled = false;
+            processBtn.innerHTML = `<i class="fas fa-magic"></i> <span>${currentTool.name}</span>`;
+            progressContainer.classList.add('hidden');
+            return;
+          }
+
+          case 'repair-pdf': {
+            // Reload and resave to fix minor issues
+            const bytes = await file.arrayBuffer();
+            const doc = await PDFLib.PDFDocument.load(bytes, { ignoreEncryption: true });
+            doc.setProducer('Hi Fi PDF Tool Kit - Repaired');
+            onProgress(50, 'Repairing...');
+            const repaired = await doc.save({ useObjectStreams: true });
+            onProgress(100, 'Done!');
+            resultBlob = new Blob([repaired], { type: 'application/pdf' });
+            resultName = `${baseName}_repaired.pdf`;
+            break;
+          }
+
+          default: {
+            // Generic: just pass through for tools that need server-side (AI, OCR, etc.)
+            if (currentTool.isPremium) {
+              progressContainer.classList.add('hidden');
+              resultContainer.classList.remove('hidden');
+              resultContainer.innerHTML = `
+                <div class="result-card animate-bounce-in text-center">
+                  <div style="font-size:3rem;margin-bottom:12px">🚀</div>
+                  <h3 style="margin-bottom:8px">Premium Feature</h3>
+                  <p style="font-size:var(--fs-sm);color:var(--text-secondary);margin-bottom:16px">${currentTool.name} is a premium feature coming soon. Stay tuned!</p>
+                  <a href="index.html" class="btn btn--primary"><i class="fas fa-home"></i> Back to Tools</a>
+                </div>
+              `;
+              processBtn.disabled = false;
+              processBtn.innerHTML = `<i class="fas fa-magic"></i> <span>${currentTool.name}</span>`;
+              return;
+            }
+            // Fallback: copy through
+            resultBlob = file;
+            resultName = `${baseName}_processed.pdf`;
+            onProgress(100, 'Done!');
+          }
+        }
+
+        if (resultBlob) {
+          const downloadUrl = PDFEngine.downloadBlob(resultBlob, resultName);
+          progressContainer.classList.add('hidden');
+          resultContainer.classList.remove('hidden');
+          HiFiUI.showResult('resultContainer', {
+            filename: file.name,
+            originalSize: file.size,
+            newSize: resultBlob.size,
+            downloadUrl,
+            downloadName: resultName
+          });
+        }
+      } catch (err) {
+        console.error(err);
+        if (err.message !== 'No password' && err.message !== 'Password mismatch') {
+          HiFiApp.toast('Error: ' + (err.message || 'Processing failed'), 'error');
+        }
+        progressContainer.classList.add('hidden');
+      }
+
+      processBtn.disabled = false;
+      processBtn.innerHTML = `<i class="fas fa-magic"></i> <span id="processBtnText">${currentTool.name}</span>`;
+    }
+  </script>
+</body>
+</html>

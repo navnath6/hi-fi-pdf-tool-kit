@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Compress PDF to Target Size Free Online — Hi Fi PDF Tool Kit</title>
+  <meta name="description" content="Compress PDF to exact size online for free. Fast, secure, accurate. No signup required — Hi Fi PDF Tool Kit.">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#6C5CE7">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect rx='20' width='100' height='100' fill='%236C5CE7'/><text x='50' y='68' text-anchor='middle' fill='white' font-size='42' font-family='Arial' font-weight='bold'>HF</text></svg>">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+</head>
+<body>
+  <div class="ambient-bg"></div>
+
+  <header class="top-nav">
+    <a href="index.html" class="top-nav__brand" style="font-size:1rem">
+      <i class="fas fa-arrow-left" style="font-size:1.1rem;-webkit-text-fill-color:var(--text-primary);margin-right:4px"></i>
+      <span>Hi Fi PDF</span>
+    </a>
+    <div class="top-nav__actions">
+      <button class="top-nav__btn" id="themeToggle" onclick="HiFiApp.toggleTheme()" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+    </div>
+  </header>
+
+  <div id="breadcrumbs" style="padding:var(--space-sm) var(--container-padding);font-size:var(--fs-xs);color:var(--text-tertiary)">
+    <a href="index.html" style="color:var(--text-tertiary)">Home</a>
+    <i class="fas fa-chevron-right" style="font-size:0.6rem;margin:0 4px"></i>
+    <a href="tool.html?id=compress-pdf" style="color:var(--text-tertiary)">Compress PDF</a>
+    <i class="fas fa-chevron-right" style="font-size:0.6rem;margin:0 4px"></i>
+    <span id="breadcrumbCurrent" style="color:var(--primary)">Compress to Size</span>
+  </div>
+
+  <div class="tool-page__header" id="toolHeader" data-aos="zoom-in" data-aos-duration="800">
+    <h1 id="pageTitle">Compress PDF to Target Size</h1>
+    <p class="tool-page__intro" id="pageIntro">Compress your PDF to an exact target size. Perfect for government forms, email attachments, and online submissions.</p>
+  </div>
+
+  <div class="tool-page">
+    <div id="uploadContainer" class="px-base" data-aos="fade-up" data-aos-delay="200"></div>
+
+    <!-- Target Size Display -->
+    <div class="px-base mt-md">
+      <div class="result-card" style="text-align:center" id="targetDisplay">
+        <div style="font-size:0.85rem;color:var(--text-secondary)">Target Size</div>
+        <div id="targetSizeValue" style="font-size:2.5rem;font-weight:800;color:var(--primary);font-family:var(--font-heading)">—</div>
+        <div style="font-size:0.75rem;color:var(--text-tertiary)">Auto-optimized for best quality at this size</div>
+      </div>
+    </div>
+
+    <div id="processSection" class="px-base mt-md hidden">
+      <button class="btn btn--primary btn--block btn--lg" id="processBtn" onclick="compressToSize()">
+        <i class="fas fa-compress-arrows-alt"></i> Compress PDF
+      </button>
+    </div>
+
+    <div id="progressContainer" class="px-base mt-md hidden"></div>
+    <div id="resultContainer" class="px-base mt-md hidden"></div>
+
+    <div class="ad-zone mt-lg">Ad Space</div>
+
+    <!-- All Size Variants -->
+    <div class="section-header mt-xl"><h2 class="section-header__title"><i class="fas fa-th text-primary"></i> All Size Options</h2></div>
+    <div class="tools-grid" id="sizeGrid"></div>
+
+    <!-- Steps -->
+    <div class="mt-xl">
+      <div class="section-header"><h2 class="section-header__title"><i class="fas fa-list-ol text-primary"></i> How to Use</h2></div>
+      <div class="steps">
+        <div class="step"><div class="step__content"><div class="step__title">Upload your PDF file</div><div class="step__desc">Click or drag & drop your PDF</div></div></div>
+        <div class="step"><div class="step__content"><div class="step__title">Auto-compress to target size</div><div class="step__desc">Our tool automatically optimizes for the target</div></div></div>
+        <div class="step"><div class="step__content"><div class="step__title">Download your compressed PDF</div><div class="step__desc">Get your file instantly</div></div></div>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div id="faqContainer" class="mt-xl"></div>
+
+    <!-- Related -->
+    <div class="section-header mt-xl"><h2 class="section-header__title"><i class="fas fa-th text-primary"></i> Related Tools</h2></div>
+    <div class="related-tools mb-xl">
+      <a href="tool.html?id=compress-pdf" class="tool-card" style="min-width:110px"><div class="tool-card__icon icon-bg-green"><i class="fas fa-compress-arrows-alt"></i></div><span class="tool-card__name">Compress PDF</span></a>
+      <a href="tool.html?id=resize-pdf" class="tool-card" style="min-width:110px"><div class="tool-card__icon icon-bg-green"><i class="fas fa-expand-arrows-alt"></i></div><span class="tool-card__name">Resize PDF</span></a>
+      <a href="tool.html?id=merge-pdf" class="tool-card" style="min-width:110px"><div class="tool-card__icon icon-bg-purple"><i class="fas fa-object-group"></i></div><span class="tool-card__name">Merge PDF</span></a>
+      <a href="tool.html?id=whatsapp-compress" class="tool-card" style="min-width:110px"><div class="tool-card__icon icon-bg-green"><i class="fab fa-whatsapp"></i></div><span class="tool-card__name">WhatsApp Compress</span></a>
+    </div>
+  </div>
+
+  <footer class="footer mt-xl" data-aos="fade-in"><p class="footer__copy">© 2026 Hi Fi PDF Tool Kit. All rights reserved.</p></footer>
+
+  <nav class="bottom-nav">
+    <a href="index.html" class="bottom-nav__item"><i class="fas fa-home"></i><span>Home</span></a>
+    <a href="tool.html?id=compress-pdf" class="bottom-nav__item active"><i class="fas fa-compress-arrows-alt"></i><span>Compress</span></a>
+    <a href="tool.html?id=merge-pdf" class="bottom-nav__item"><i class="fas fa-object-group"></i><span>Merge</span></a>
+    <a href="tool.html?id=jpg-to-pdf" class="bottom-nav__item"><i class="fas fa-image"></i><span>Convert</span></a>
+    <a href="tool.html?id=recent-history" class="bottom-nav__item"><i class="fas fa-history"></i><span>Recent</span></a>
+  </nav>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="js/tools-config.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/ui-components.js"></script>
+  <script src="js/pdf-engine.js"></script>
+  <script src="js/seo-engine.js"></script>
+
+  <script>
+    let targetKB = 100;
+    let targetLabel = '100KB';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const sizeParam = (params.get('size') || '100kb').toLowerCase();
+
+      // Parse size
+      const match = sizeParam.match(/^(\d+)(kb|mb)$/);
+      if (match) {
+        const num = parseInt(match[1]);
+        const unit = match[2];
+        targetKB = unit === 'mb' ? num * 1024 : num;
+        targetLabel = unit === 'mb' ? num + 'MB' : num + 'KB';
+      }
+
+      // Update page content
+      document.title = `Compress PDF to ${targetLabel} Free Online — Hi Fi PDF Tool Kit`;
+      document.getElementById('pageTitle').textContent = `Compress PDF to ${targetLabel}`;
+      document.getElementById('pageIntro').textContent = `Compress your PDF to exactly ${targetLabel}. Perfect for government forms, email attachments, and online portals that require specific file sizes.`;
+      document.getElementById('targetSizeValue').textContent = targetLabel;
+      document.getElementById('breadcrumbCurrent').textContent = `Compress to ${targetLabel}`;
+
+      // SEO
+      SEOEngine.setSizeMeta(targetLabel, 'compress');
+
+      // Upload zone
+      HiFiUI.createUploadZone('uploadContainer', {
+        accept: '.pdf',
+        multiple: false,
+        onFiles: (files) => {
+          document.getElementById('processSection').classList.toggle('hidden', files.length === 0);
+        }
+      });
+
+      // Size grid
+      const sizeGrid = document.getElementById('sizeGrid');
+      const sizes = [
+        { s: '10kb', l: '10KB' }, { s: '20kb', l: '20KB' }, { s: '30kb', l: '30KB' },
+        { s: '50kb', l: '50KB' }, { s: '100kb', l: '100KB' }, { s: '150kb', l: '150KB' },
+        { s: '200kb', l: '200KB' }, { s: '300kb', l: '300KB' }, { s: '500kb', l: '500KB' },
+        { s: '1mb', l: '1MB' }, { s: '2mb', l: '2MB' }, { s: '5mb', l: '5MB' }
+      ];
+      sizeGrid.innerHTML = sizes.map(sz => `
+        <a href="compress-pdf-to.html?size=${sz.s}" class="tool-card ${sizeParam === sz.s ? 'active' : ''}" style="${sizeParam === sz.s ? 'border-color:var(--primary);background:rgba(108,92,231,0.05)' : ''}">
+          <div class="tool-card__icon icon-bg-green"><i class="fas fa-compress-arrows-alt"></i></div>
+          <span class="tool-card__name">PDF to ${sz.l}</span>
+        </a>
+      `).join('');
+
+      // FAQ
+      HiFiUI.renderFAQ('faqContainer', [
+        { q: `How to compress PDF to ${targetLabel}?`, a: `Upload your PDF file, and our tool will automatically compress it to ${targetLabel}. The compression is optimized to maintain the best possible quality at the target size.` },
+        { q: 'Will the quality be reduced?', a: 'We use smart compression algorithms that minimize quality loss while achieving the target file size.' },
+        { q: 'Is it free?', a: 'Yes, completely free with no signup, no watermarks, and no limits.' },
+        { q: 'Is my file safe?', a: 'Absolutely. All processing happens in your browser. Your files are never uploaded to any server.' },
+        { q: `Why do I need ${targetLabel} PDF?`, a: `Many government forms, job portals, and online applications require PDF uploads under ${targetLabel}. Our tool helps you meet those requirements.` }
+      ]);
+    });
+
+    async function compressToSize() {
+      const files = HiFiUI.getFiles();
+      if (!files.length) { HiFiApp.toast('Please select a file', 'warning'); return; }
+
+      const btn = document.getElementById('processBtn');
+      const prog = document.getElementById('progressContainer');
+      const result = document.getElementById('resultContainer');
+
+      btn.disabled = true;
+      btn.innerHTML = '<div class="spinner" style="width:20px;height:20px;border-width:2px"></div> Compressing...';
+      prog.classList.remove('hidden');
+      result.classList.add('hidden');
+      HiFiUI.createProgress('progressContainer');
+
+      try {
+        const blob = await PDFEngine.compressPDF(files[0], targetKB, null, (pct, msg) => HiFiUI.updateProgress(pct, msg));
+        const url = PDFEngine.downloadBlob(blob, `compressed_${targetLabel}.pdf`);
+        prog.classList.add('hidden');
+        result.classList.remove('hidden');
+        HiFiUI.showResult('resultContainer', {
+          filename: files[0].name,
+          originalSize: files[0].size,
+          newSize: blob.size,
+          downloadUrl: url,
+          downloadName: `compressed_${targetLabel}.pdf`
+        });
+      } catch (err) {
+        HiFiApp.toast('Error: ' + err.message, 'error');
+        prog.classList.add('hidden');
+      }
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-compress-arrows-alt"></i> Compress PDF';
+    }
+  </script>
+</body>
+</html>

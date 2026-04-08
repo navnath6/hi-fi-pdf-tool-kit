@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Resize PDF to Exact Size Free Online — Hi Fi PDF Tool Kit</title>
+  <meta name="description" content="Resize PDF to exact size online for free. Fast, secure, accurate. No signup required. Perfect for applications — Hi Fi PDF Tool Kit.">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#6C5CE7">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect rx='20' width='100' height='100' fill='%236C5CE7'/><text x='50' y='68' text-anchor='middle' fill='white' font-size='42' font-family='Arial' font-weight='bold'>HF</text></svg>">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+</head>
+<body>
+  <div class="ambient-bg"></div>
+
+  <header class="top-nav">
+    <a href="index.html" class="top-nav__brand" style="font-size:1rem">
+      <i class="fas fa-arrow-left" style="font-size:1.1rem;-webkit-text-fill-color:var(--text-primary);margin-right:4px"></i>
+      <span>Hi Fi PDF</span>
+    </a>
+    <div class="top-nav__actions">
+      <button class="top-nav__btn" id="themeToggle" onclick="HiFiApp.toggleTheme()" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+    </div>
+  </header>
+
+  <div id="breadcrumbs" style="padding:var(--space-sm) var(--container-padding);font-size:var(--fs-xs);color:var(--text-tertiary)">
+    <a href="index.html" style="color:var(--text-tertiary)">Home</a>
+    <i class="fas fa-chevron-right" style="font-size:0.6rem;margin:0 4px"></i>
+    <a href="tool.html?id=resize-pdf" style="color:var(--text-tertiary)">Resize PDF</a>
+    <i class="fas fa-chevron-right" style="font-size:0.6rem;margin:0 4px"></i>
+    <span id="breadcrumbCurrent" style="color:var(--primary)">Resize PDF</span>
+  </div>
+
+  <div class="tool-page__header" id="toolHeader" data-aos="zoom-in" data-aos-duration="800">
+    <div class="tool-icon-large bg-primary-light" id="headerIcon"><i class="fas fa-expand-arrows-alt"></i></div>
+    <h1 id="pageTitle">Resize PDF File</h1>
+    <p class="tool-page__intro" id="pageIntro">Resize your PDF file to the exact target size you need. Perfect for online portals and job applications.</p>
+  </div>
+
+  <div class="tool-page">
+    <div id="uploadContainer" class="px-base" data-aos="fade-up" data-aos-delay="200"></div>
+
+    <div class="px-base mt-md">
+      <div class="result-card" style="text-align:center" id="targetDisplay">
+        <div style="font-size:0.85rem;color:var(--text-secondary)">Target Size</div>
+        <div id="targetSizeValue" style="font-size:2.5rem;font-weight:800;color:var(--primary);font-family:var(--font-heading)">—</div>
+        <div style="font-size:0.75rem;color:var(--text-tertiary)">Auto-optimized for best quality at this size</div>
+      </div>
+    </div>
+
+    <div id="processSection" class="px-base mt-md hidden">
+      <button class="btn btn--primary btn--block btn--lg" id="processBtn" onclick="resizeToSize()">
+        <i class="fas fa-expand-arrows-alt"></i> Resize PDF
+      </button>
+    </div>
+
+    <div id="progressContainer" class="px-base mt-md hidden"></div>
+    <div id="resultContainer" class="px-base mt-md hidden"></div>
+
+    <div class="ad-zone mt-lg">Ad Space</div>
+
+    <div class="section-header mt-xl"><h2 class="section-header__title"><i class="fas fa-th text-primary"></i> Popular Sizes</h2></div>
+    <div class="tools-grid" id="sizeGrid"></div>
+
+    <div class="mt-xl">
+      <div class="section-header"><h2 class="section-header__title"><i class="fas fa-list-ol text-primary"></i> How to Use</h2></div>
+      <div class="steps">
+        <div class="step"><div class="step__content"><div class="step__title">Upload your PDF</div><div class="step__desc">Select your file</div></div></div>
+        <div class="step"><div class="step__content"><div class="step__title">Auto-resize to target</div><div class="step__desc">We optimize your document</div></div></div>
+        <div class="step"><div class="step__content"><div class="step__title">Download</div><div class="step__desc">Save your exact size PDF</div></div></div>
+      </div>
+    </div>
+
+    <div id="faqContainer" class="mt-xl"></div>
+
+    <div class="section-header mt-xl"><h2 class="section-header__title"><i class="fas fa-th text-primary"></i> Related Tools</h2></div>
+    <div class="related-tools mb-xl">
+      <a href="tool.html?id=compress-pdf" class="tool-card" style="min-width:110px"><div class="tool-card__icon icon-bg-green"><i class="fas fa-compress-arrows-alt"></i></div><span class="tool-card__name">Compress PDF</span></a>
+      <a href="tool.html?id=increase-pdf-size" class="tool-card" style="min-width:110px"><div class="tool-card__icon icon-bg-green"><i class="fas fa-expand"></i></div><span class="tool-card__name">Increase Size</span></a>
+      <a href="tool.html?id=merge-pdf" class="tool-card" style="min-width:110px"><div class="tool-card__icon icon-bg-purple"><i class="fas fa-object-group"></i></div><span class="tool-card__name">Merge PDF</span></a>
+    </div>
+  </div>
+
+  <footer class="footer mt-xl" data-aos="fade-in"><p class="footer__copy">© 2026 Hi Fi PDF Tool Kit. All rights reserved.</p></footer>
+
+  <nav class="bottom-nav">
+    <a href="index.html" class="bottom-nav__item"><i class="fas fa-home"></i><span>Home</span></a>
+    <a href="tool.html?id=compress-pdf" class="bottom-nav__item"><i class="fas fa-compress-arrows-alt"></i><span>Compress</span></a>
+    <a href="tool.html?id=merge-pdf" class="bottom-nav__item"><i class="fas fa-object-group"></i><span>Merge</span></a>
+    <a href="tool.html?id=jpg-to-pdf" class="bottom-nav__item"><i class="fas fa-image"></i><span>Convert</span></a>
+    <a href="tool.html?id=recent-history" class="bottom-nav__item"><i class="fas fa-history"></i><span>Recent</span></a>
+  </nav>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="js/tools-config.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/ui-components.js"></script>
+  <script src="js/pdf-engine.js"></script>
+  <script src="js/seo-engine.js"></script>
+
+  <script>
+    let targetKB = 100;
+    let targetLabel = '100KB';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const sizeParam = (params.get('size') || '100kb').toLowerCase();
+
+      const match = sizeParam.match(/^(\d+)(kb|mb)$/);
+      if (match) {
+        const num = parseInt(match[1]);
+        const unit = match[2];
+        targetKB = unit === 'mb' ? num * 1024 : num;
+        targetLabel = unit === 'mb' ? num + 'MB' : num + 'KB';
+      }
+
+      document.title = `Resize PDF to ${targetLabel} Free Online — Hi Fi PDF Tool Kit`;
+      document.getElementById('pageTitle').textContent = `Resize PDF to ${targetLabel}`;
+      document.getElementById('pageIntro').textContent = `Resize your PDF to exactly ${targetLabel}.`;
+      document.getElementById('targetSizeValue').textContent = targetLabel;
+      document.getElementById('breadcrumbCurrent').textContent = `Resize to ${targetLabel}`;
+      SEOEngine.setSizeMeta(targetLabel, 'resize');
+
+      HiFiUI.createUploadZone('uploadContainer', {
+        accept: '.pdf',
+        multiple: false,
+        onFiles: (files) => {
+          document.getElementById('processSection').classList.toggle('hidden', files.length === 0);
+        }
+      });
+
+      const sizeGrid = document.getElementById('sizeGrid');
+      const sizes = [
+        { s: '50kb', l: '50KB' }, { s: '100kb', l: '100KB' }, { s: '200kb', l: '200KB' },
+        { s: '500kb', l: '500KB' }, { s: '1mb', l: '1MB' }, { s: '2mb', l: '2MB' }
+      ];
+      sizeGrid.innerHTML = sizes.map(sz => `
+        <a href="resize-pdf-to.html?size=${sz.s}" class="tool-card ${sizeParam === sz.s ? 'active' : ''}" style="${sizeParam === sz.s ? 'border-color:var(--primary);background:rgba(108,92,231,0.05)' : ''}">
+          <div class="tool-card__icon icon-bg-green"><i class="fas fa-expand-arrows-alt"></i></div>
+          <span class="tool-card__name">Resize to ${sz.l}</span>
+        </a>
+      `).join('');
+
+      HiFiUI.renderFAQ('faqContainer', [
+        { q: `How to resize PDF to ${targetLabel}?`, a: `Upload your PDF file, and our tool will automatically adapt it to ${targetLabel}.` },
+        { q: 'Is it free?', a: 'Yes, completely free with no signup and no watermarks.' }
+      ]);
+    });
+
+    async function resizeToSize() {
+      const files = HiFiUI.getFiles();
+      if (!files.length) { HiFiApp.toast('Please select a file', 'warning'); return; }
+
+      const btn = document.getElementById('processBtn');
+      const prog = document.getElementById('progressContainer');
+      const result = document.getElementById('resultContainer');
+
+      btn.disabled = true;
+      btn.innerHTML = '<div class="spinner" style="width:20px;height:20px;border-width:2px"></div> Resizing...';
+      prog.classList.remove('hidden');
+      result.classList.add('hidden');
+      HiFiUI.createProgress('progressContainer');
+
+      try {
+        const file = files[0];
+        const fileSizeKB = file.size / 1024;
+        let blob;
+        
+        if (fileSizeKB > targetKB) {
+          // Compress exactly
+          blob = await PDFEngine.compressPDF(file, targetKB, null, (pct, msg) => HiFiUI.updateProgress(pct, msg));
+        } else if (fileSizeKB < targetKB) {
+          // Increase exact size
+          blob = await PDFEngine.increasePDFSize(file, targetKB, (pct, msg) => HiFiUI.updateProgress(pct, msg));
+        } else {
+          blob = file;
+        }
+
+        const url = PDFEngine.downloadBlob(blob, `resized_${targetLabel}.pdf`);
+        prog.classList.add('hidden');
+        result.classList.remove('hidden');
+        HiFiUI.showResult('resultContainer', {
+          filename: file.name,
+          originalSize: file.size,
+          newSize: blob.size,
+          downloadUrl: url,
+          downloadName: `resized_${targetLabel}.pdf`
+        });
+      } catch (err) {
+        HiFiApp.toast('Error: ' + err.message, 'error');
+        prog.classList.add('hidden');
+      }
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-expand-arrows-alt"></i> Resize PDF';
+    }
+  </script>
+</body>
+</html>

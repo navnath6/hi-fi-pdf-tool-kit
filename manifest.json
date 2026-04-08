@@ -1,0 +1,14 @@
+{
+  "name": "Hi Fi PDF Tool Kit",
+  "short_name": "Hi Fi PDF",
+  "description": "Fast, Secure & Smart PDF Tools — All Free",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0F0F1A",
+  "theme_color": "#6C5CE7",
+  "orientation": "portrait-primary",
+  "categories": ["utilities", "productivity"],
+  "icons": [
+    { "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect rx='20' width='100' height='100' fill='%236C5CE7'/><text x='50' y='68' text-anchor='middle' fill='white' font-size='42' font-family='Arial' font-weight='bold'>HF</text></svg>", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
