@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /
-Sitemap: sitemap.xml
+Sitemap: https://navnath6.github.io/hi-fi-pdf-tool-kit/sitemap.xml
 
 User-agent: Googlebot
 Allow: /
